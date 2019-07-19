@@ -19,6 +19,8 @@
 <body>
     <div id="container-mapa">
         <h2>aqui abajo ira el mapa</h2>
+        <h3 onclick="onMarkers(this)">Activar markers</h3>
+        <h3 onclick="offMarkers(this)">Desactivar markers</h3>
         <div id="mimapa"></div>      
     <div>
 </body>
