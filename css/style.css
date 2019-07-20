@@ -1,11 +1,11 @@
 #mimapa {
-    height: 450px;
+    height: 500px;
     box-shadow: 5px 5px 5px #888;
 }
 
 #container-mapa {
     text-align: center;
-    width: 900px;
+    width: 80%;
     margin-left: auto;
     margin-right: auto;
 }

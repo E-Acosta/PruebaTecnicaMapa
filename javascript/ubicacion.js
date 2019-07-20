@@ -2,10 +2,10 @@ let respuesta
 let mainMap
 let divMapa = document.getElementById('Mapa')
 navigator.geolocation.getCurrentPosition(fnOk, fnFail)
-let popInicial = L.popup();
-let markerInicial = L.marker();
-let popFinal = L.popup();
-let markerFinal = L.marker();
+let markerInicial
+let markerFinal
+let contador = 0
+let ruta
 
 function fnOk(resp) {
     console.log(resp)
@@ -26,26 +26,62 @@ function cargarMapa(lat, lon) {
         accessToken: 'pk.eyJ1IjoiZXZlcmFjb3N0YSIsImEiOiJjanlhanEyOHgwY3BsM25xaW8xNTdjMnM2In0.Gan5URMAJsNmNOJQk2wDWw'
     }).addTo(mainMap);
     /*L.marker([lat, lon]).addTo(mainMap);
-    L.Routing.control({
+     */
+
+}
+
+function trazarRuta(markerInicial, markerFinal) {
+    ruta = L.Routing.control({
         waypoints: [
-            L.latLng(10.844671, -74.770512),
-            L.latLng(10.861098, -74.783247)
-        ]
-    }).addTo(mainMap);*/
-
+            L.latLng(markerInicial._latlng.lat, markerInicial._latlng.lng),
+            L.latLng(markerFinal._latlng.lat, markerFinal._latlng.lng)
+        ],
+        routeWhileDragging: true,
+        geocoder: L.Control.Geocoder.nominatim()
+    })
+    ruta.addTo(mainMap)
+    console.log(ruta)
+    markerInicial.remove()
+    markerFinal.remove()
 }
 
-function onMarkers(id) {
-    mainMap.on('click', onMapClick);
+function onMarkers() {
+    mainMap.on('click', onMapClick)
 }
 
-function offMarkers(id) {
-    mainMap.off('click', onMapClick);
+function deleteMarkers() {
+    if (contador > 0 && contador <= 2) {
+        markerInicial.remove()
+        markerFinal.remove()
+        ruta.remove()
+        contador = 0
+    }
 }
 
 function onMapClick(e) {
     console.log(e)
-    L.marker([e.latlng.lat, e.latlng.lng]).addTo(mainMap)
+
+    switch (contador) {
+        case 0:
+            contador += 1
+            markerInicial = L.marker([e.latlng.lat, e.latlng.lng])
+            markerInicial.bindPopup(`Ubicacion Inicial: \nLatitud:${e.latlng.lat},\nLongitud: ${e.latlng.lng}`)
+            markerInicial.addTo(mainMap)
+            markerInicial.openPopup()
+            console.log(markerInicial)
+            break;
+        case 1:
+            contador += 1
+            markerFinal = L.marker([e.latlng.lat, e.latlng.lng])
+            markerFinal.bindPopup(`Ubicacion Final: \nLatitud:${e.latlng.lat},\nLongitud: ${e.latlng.lng}`)
+            markerFinal.addTo(mainMap)
+            markerFinal.openPopup()
+            console.log(markerFinal)
+            trazarRuta(markerInicial, markerFinal)
+            break;
+        default:
+            mainMap.off('click', onMapClick)
+    }
 }
 
 function fnFail() {
