@@ -2,13 +2,11 @@ let respuesta
 let mainMap
 let divMapa = document.getElementById('Mapa')
 navigator.geolocation.getCurrentPosition(fnOk, fnFail)
-let ruta
-let startBtn
-let destBtn
-let container
-let markerInicial
-let markerFinal
-let popPup
+let ruta, startBtn, destBtn, container, markerInicial, markerFinal, popPup, coordenadasAux = [],
+    animatedCar, iconCar, iconCarEnd
+if (Notification.permission !== "granted") {
+    Notification.requestPermission();
+}
 
 function fnOk(resp) {
     console.log(resp)
@@ -17,6 +15,21 @@ function fnOk(resp) {
 
 function fnFail() {
     cargarMapa(10.988119017649746, -74.78959575136814)
+}
+
+function notificar() {
+    if (Notification.permission !== "granted") {
+        Notification.requestPermission();
+    } else {
+        var notificacion = new Notification("Recorrido finalizado", {
+            icon: "./Imagenes/carblue.png",
+            body: " Por favor presione aqui mas información"
+        });
+
+        notificacion.onclick = function() {
+
+        }
+    }
 }
 
 function cargarMapa(lat, lon) {
@@ -59,10 +72,39 @@ function onMarkers(id) {
     console.log(`funciona ${id}`)
     ruta.spliceWaypoints(0, 1, popPup.getLatLng());
     mainMap.closePopup();
+    console.log(ruta)
+        //asignarValoresAuxiliar()
 }
 
 function deleteMarkers(id) {
     console.log(`funciona ${id}`)
     ruta.spliceWaypoints(ruta.getWaypoints().length - 1, 1, popPup.getLatLng());
     mainMap.closePopup();
+    console.log(ruta)
+        //console.log(ruta._line._route.coordinates)
+        // asignarValoresAuxiliar()
+}
+
+function UtilizarRuta() {
+    console.log(ruta._line._route.coordinates)
+    iconCar = L.icon({
+        iconUrl: './Imagenes/car2424.png',
+        iconSize: [20, 20]
+    });
+    iconCarEnd = L.icon({
+        iconUrl: './Imagenes/carblue2424.png',
+        iconSize: [20, 20]
+    });
+    animatedCar = L.animatedMarker(ruta._line._route.coordinates, {
+        distance: 100,
+        interval: 1000,
+        icon: iconCar,
+        onEnd: function() {
+            animatedCar.setIcon(iconCarEnd)
+            notificar()
+        }
+    })
+    mainMap.addLayer(animatedCar)
+    animatedCar._icon.currentSrc = 'carrito.png'
+    mainMap.addLayer(animatedCar)
 }
