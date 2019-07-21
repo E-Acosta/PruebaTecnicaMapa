@@ -1,6 +1,3 @@
-/*const firebase = require("firebase");
-require("firebase/firestore");
-require("firebase/database");*/
 let doc, eaux, snapaux, salidaHtml
 let firebaseConfig = {
     apiKey: " AIzaSyDX_1g0J3IoS5hL9FIGdFcW5QX-wDNVP4w",
@@ -18,7 +15,7 @@ setTimeout(() => {
     console.log(`hola settime`)
 }, 1500);
 
-async function agregarDatos(geoPosInicial, geoPosFinal, geoPosActual, posInicial = 'indeterminado', posFinal = 'indeterminado', tiempo, distancia, end) {
+async function agregarDatos(geoPosInicial, geoPosFinal, geoPosActual, posInicial = 'indeterminado', posFinal = 'indeterminado', tiempo, distancia, end, stoped) {
     await db.collection("Viajes").add({
             tiempo: tiempo,
             distancia: distancia,
@@ -36,7 +33,8 @@ async function agregarDatos(geoPosInicial, geoPosFinal, geoPosActual, posInicial
                 lat: geoPosActual.lat,
                 lng: geoPosActual.lng
             },
-            end: end
+            end: end,
+            stoped: stoped
         }).then(function(docRef) {
             console.log("Document written with ID: ", docRef.id);
             idViaje = docRef.id
@@ -65,8 +63,22 @@ db.collection("Viajes").onSnapshot(snapshot => {
     let cambios = snapshot.docChanges()
     console.log(cambios)
     cambios.forEach(cambio => {
-        if (cambio.type == 'added' || cambio.type == 'removed' || cambio.type == 'updated') {
+        if (cambio.type == 'added' || cambio.type == 'removed') {
             cargarDatos()
+        } else if (cambio.type == 'modified') {
+            document.getElementById(`${cambio.doc.id}-posAct`).innerHTML = `GeoUbicación Actual:
+            </span>
+            lat:${cambio.doc.data().geoPosicionActual.lat},lng:${cambio.doc.data().geoPosicionActual.lng}
+            </span>`
+            var carcolor = ``
+            if (cambio.doc.data().end) {
+                carcolor = `Imagenes/carblue.png`
+            } else if (cambio.doc.data().stoped) {
+                carcolor = `Imagenes/carred.png`
+            } else {
+                carcolor = `Imagenes/caryellow.png`
+            }
+            document.getElementById(`${cambio.doc.id}-img`).setAttribute("src", `${carcolor}`)
         }
     })
 })
@@ -74,9 +86,15 @@ db.collection("Viajes").onSnapshot(snapshot => {
 function renderDatos(doc, i) {
     console.log(doc.id)
     console.log(doc.data())
+    var carcolor = ``
+    if (doc.data().end) {
+        carcolor = `Imagenes/carblue.png`
+    } else {
+        carcolor = `Imagenes/caryellow.png`
+    }
     salidaHtml += `
     <div id="${doc.id}-block" class="block">
-        <img id="${doc.id}-img" src="Imagenes/carblue.png" alt="">
+        <img id="${doc.id}-img" src="${carcolor}" alt="">
         <div data-id="${doc.id}" class="text">
         <button onclick="eliminarViaje(this)"><i id="delete" class="fas fa-trash"></i></button>
         <h3>
@@ -91,15 +109,15 @@ function renderDatos(doc, i) {
         </span>
         <span>
             <span class="title-text">
-                GeoUbicación Inicial:
-            </span> 
-            lat:${doc.data().geoPosicionInicial.lat},lng:${doc.data().geoPosicionInicial.lng}
-        </span>
-        <span>
-            <span class="title-text">
                 Ubicación Final:
             </span> 
             ${doc.data().posicionFinal}
+        </span>
+        <span>
+            <span class="title-text">
+                GeoUbicación Inicial:
+            </span> 
+            lat:${doc.data().geoPosicionInicial.lat},lng:${doc.data().geoPosicionInicial.lng}
         </span>
         <span>
             <span class="title-text">

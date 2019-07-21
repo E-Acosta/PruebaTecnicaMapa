@@ -1,9 +1,10 @@
 let respuesta
 let mainMap
+let rutaIsOn = true
 let divMapa = document.getElementById('Mapa')
 navigator.geolocation.getCurrentPosition(fnOk, fnFail)
 let ruta, startBtn, destBtn, container, markerInicial, markerFinal, popPup, coordenadasAux = [],
-    animatedCar, iconCar, iconCarEnd, viaje, ultimo, idViaje
+    animatedCar, iconCar, iconCarEnd, iconCarStop, viaje, ultimo, idViaje
 if (Notification.permission !== "granted") {
     Notification.requestPermission();
 }
@@ -86,47 +87,64 @@ function deleteMarkers(id) {
 }
 
 function UtilizarRuta() {
-    console.log(ruta._line._route.coordinates)
-    iconCar = L.icon({
-        iconUrl: './Imagenes/car2424.png',
-        iconSize: [20, 20]
-    });
-    iconCarEnd = L.icon({
-        iconUrl: './Imagenes/carblue2424.png',
-        iconSize: [20, 20]
-    });
-    animatedCar = L.animatedMarker(ruta._selectedRoute.coordinates, {
-        distance: 350,
-        interval: 4500,
-        icon: iconCar,
-        onEnd: function() {
-            animatedCar.setIcon(iconCarEnd)
-            viaje.end = true
-            notificar()
+    if (rutaIsOn) {
+        rutaIsOn = false
+        console.log(ruta._line._route.coordinates)
+        iconCar = L.icon({
+            iconUrl: './Imagenes/caryellow.png',
+            iconSize: [20, 20]
+        });
+        iconCarEnd = L.icon({
+            iconUrl: './Imagenes/carblue.png',
+            iconSize: [20, 20]
+        });
+        iconCarStop = L.icon({
+            iconUrl: './Imagenes/carred.png',
+            iconSize: [20, 20]
+        });
+        animatedCar = L.animatedMarker(ruta._selectedRoute.coordinates, {
+            distance: 350,
+            interval: 4500,
+            icon: iconCar,
+            onEnd: function() {
+                animatedCar.setIcon(iconCarEnd)
+                viaje.end = true
+                db.collection("Viajes").doc(idViaje).update({ end: true })
+                rutaIsOn = true
+                notificar()
+            }
+        })
+        mainMap.addLayer(animatedCar)
+        ultimo = ruta._selectedRoute.waypoints.length - 1
+        viaje = {
+            geoPosInicial: ruta._selectedRoute.waypoints[0].latLng,
+            geoPosFinal: ruta._selectedRoute.waypoints[ultimo].latLng,
+            geoPosActual: animatedCar._latlng,
+            posInicial: ruta._selectedRoute.waypoints[0].name,
+            posFinal: ruta._selectedRoute.waypoints[ultimo].name,
+            tiempo: ruta._selectedRoute.summary.totalTime,
+            distancia: ruta._selectedRoute.summary.totalDistance,
+            end: false,
+            stoped: false
         }
-    })
-    mainMap.addLayer(animatedCar)
-    ultimo = ruta._selectedRoute.waypoints.length - 1
-    viaje = {
-        geoPosInicial: ruta._selectedRoute.waypoints[0].latLng,
-        geoPosFinal: ruta._selectedRoute.waypoints[ultimo].latLng,
-        geoPosActual: animatedCar._latlng,
-        posInicial: ruta._selectedRoute.waypoints[0].name,
-        posFinal: ruta._selectedRoute.waypoints[ultimo].name,
-        tiempo: ruta._selectedRoute.summary.totalTime,
-        distancia: ruta._selectedRoute.summary.totalDistance,
-        end: false
+        agregarDatos(viaje.geoPosInicial, viaje.geoPosFinal, viaje.geoPosActual, viaje.posInicial, viaje.posFinal, viaje.tiempo, viaje.distancia, viaje.end, viaje.stoped)
+        animatedCar.on('move', movimientoCarro)
     }
-    agregarDatos(viaje.geoPosInicial, viaje.geoPosFinal, viaje.geoPosActual, viaje.posInicial, viaje.posFinal, viaje.tiempo, viaje.distancia, viaje.end)
-    animatedCar.on('move', movimientoCarro)
+}
+
+function DetenerRuta() {
+    animatedCar.stop()
+    console.log(`car stoped`)
+    animatedCar.setIcon(iconCarStop)
+    db.collection("Viajes").doc(idViaje).update({ stoped: true })
 }
 
 function movimientoCarro(e) {
     //console.log(`Latidud: ${e.latlng.lat}, Longitud: ${e.latlng.lat}`)
-    /*db.collection("Viajes").doc(idViaje).update({
+    db.collection("Viajes").doc(idViaje).update({
         geoPosicionActual: {
             lat: e.latlng.lat,
             lng: e.latlng.lng
         }
-    })*/
+    })
 }

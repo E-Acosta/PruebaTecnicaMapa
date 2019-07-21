@@ -153,7 +153,7 @@ body {
 
 .container-blocks {
     /* background: #204969; */
-    height: 500px;
+    /*height: 500px;*/
     flex: 1;
     margin-right: 10px;
     display: flex;
@@ -161,6 +161,7 @@ body {
     justify-content: space-between;
     flex-direction: column;
     overflow-y: auto;
+    overflow-x: auto;
 }
 
 
@@ -171,8 +172,8 @@ body {
     border-radius: 5px;
     border: 1px solid rgb(173, 173, 173);
     display: flex;
-    width: 90%;
-    height: 200px;
+    width: 50%;
+    height: 250px;
     padding: 10px;
     box-sizing: border-box;
     -webkit-box-shadow: 8px 4px 8px -3px rgba(130, 130, 130, 1);
