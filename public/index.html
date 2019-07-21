@@ -20,8 +20,10 @@
         <a href="panel.html">Ir al Panel Administrador   <i class="fas fa-arrow-right"></i></a>
     </div>
     <div id="container-mapa">
-        <button onclick="UtilizarRuta()" class="btn-go">Comenzar viaje</button>
-        <button onclick="DetenerRuta()" class="btn-go">Detener viaje</button>
+        <div class="container-btn">
+            <button onclick="UtilizarRuta()" class="btn-go">Comenzar viaje</button>
+            <button onclick="DetenerRuta()" class="btn-cancel">Detener viaje</button>
+        </div>
         <div id="mimapa"></div>
     </div>
     <script src="./javascript/ubicacion.js"></script>

@@ -44,7 +44,7 @@ async function agregarDatos(geoPosInicial, geoPosFinal, geoPosActual, posInicial
             console.error("Error adding document: ", error);
         });
 }
-
+//La funcion cargar datos se encarga de consultar los datos en firebase.store y de actualizar el DOM
 function cargarDatos() {
     salidaHtml = ``
     var i = 0
@@ -58,39 +58,50 @@ function cargarDatos() {
     })
 }
 
-//Real time
+//Real time-- Controla los eventos sobre firebase para poder actualizar el DOM
 db.collection("Viajes").onSnapshot(snapshot => {
-    snapaux = snapshot
-    let cambios = snapshot.docChanges()
-    console.log(cambios)
-    cambios.forEach(cambio => {
-        if (cambio.type == 'added' || cambio.type == 'removed') {
-            cargarDatos()
-        } else if (cambio.type == 'modified') {
-            document.getElementById(`${cambio.doc.id}-posAct`).innerHTML = `GeoUbicación Actual:
+        snapaux = snapshot
+        let cambios = snapshot.docChanges()
+        console.log(cambios)
+        cambios.forEach(cambio => {
+            if (cambio.type == 'added' || cambio.type == 'removed') {
+                cargarDatos()
+            } else if (cambio.type == 'modified') {
+                document.getElementById(`${cambio.doc.id}-posAct`).innerHTML = `GeoUbicación Actual:
             </span>
             lat:${cambio.doc.data().geoPosicionActual.lat},lng:${cambio.doc.data().geoPosicionActual.lng}
             </span>`
-            var carcolor = ``
-            if (cambio.doc.data().end) {
-                carcolor = `Imagenes/carblue.png`
-            } else if (cambio.doc.data().stoped) {
-                carcolor = `Imagenes/carred.png`
-            } else {
-                carcolor = `Imagenes/caryellow.png`
+                var carcolor = ``
+                if (cambio.doc.data().end) {
+                    carcolor = `Imagenes/carblue.png`
+                } else if (cambio.doc.data().stoped) {
+                    carcolor = `Imagenes/carred.png`
+                } else {
+                    carcolor = `Imagenes/caryellow.png`
+                }
+                document.getElementById(`${cambio.doc.id}-img`).setAttribute("src", `${carcolor}`)
             }
-            document.getElementById(`${cambio.doc.id}-img`).setAttribute("src", `${carcolor}`)
-        }
+        })
     })
-})
+    //renderDatos crea un templateString utilizando las propiedades de ES6 para posteriormente imprimirlo en el DOM
+minutosConv = (segundos) => {
+    return Math.floor(segundos / 60)
+}
+distanciaConv = (metros) => {
+    if (metros < 1000) {
+        return `${metros} m`
+    } else {
+        return `${metros/1000} Km`
+    }
+}
 
 function renderDatos(doc, i) {
     /* console.log(doc.id)
      console.log(doc.data())*/
     var carcolor = ``
-    if (cambio.doc.data().end) {
+    if (doc.data().end) {
         carcolor = `Imagenes/carblue.png`
-    } else if (cambio.doc.data().stoped) {
+    } else if (doc.data().stoped) {
         carcolor = `Imagenes/carred.png`
     } else {
         carcolor = `Imagenes/caryellow.png`
@@ -138,18 +149,18 @@ function renderDatos(doc, i) {
             <span  class="title-text">
                 Tiempo:
             </span>
-            ${doc.data().tiempo}
+            ${minutosConv(doc.data().tiempo)} Min
         </span>
         <span>
             <span  class="title-text">
                 Distancia:
             </span>
-            ${doc.data().distancia}
+            ${distanciaConv(doc.data().distancia)}
         </span>
         </div>
     </div>`
 }
-
+//Control del evento onclick sobre el boton de eliminar
 function eliminarViaje(e) {
     eaux = e
     let idDel = e.parentElement.getAttribute('data-id')
