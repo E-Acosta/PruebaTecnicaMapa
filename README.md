@@ -43,7 +43,7 @@ Por favor lee el [CONTRIBUTING.md](https://gist.github.com/villanuevand/xxxxxx) 
 
 _Menciona a todos aquellos que ayudaron a levantar el proyecto desde sus inicios_
 
-* **Ever Acosta** - [villanuevand](https://github.com/EverAcosta)
+* **Ever Luis Acosta González** - [EverAcosta](https://github.com/EverAcosta)
 
 También puedes mirar la lista de todos los [contribuyentes](https://github.com/EverAcosta/PruebaTecnicaMapa/contributors) quíenes han participado en este proyecto. 
 
