@@ -11,8 +11,6 @@ La prueba la puedes realizar en web o móvil según preferencia, experiencia y c
 
 _la aplicacion dispone de 2 paneles, uno en el que se podran realizar viajes utilizando las rutas, y otro en el que se podrá observar la informacion de dichos viajes en tiempo real_
 
-Mira **Deployment** para conocer como desplegar el proyecto.
-
 
 ### Recomendación 📋
 
@@ -33,8 +31,6 @@ _Se dispone de 2 interfaces bastantes intuitivas en las que podrá observar un i
 * Este en movimiento un auto
 
 ## Construido con 🛠️
-
-_Menciona las herramientas que utilizaste para crear tu proyecto_
 
 * [leaflet](https://leafletjs.com/) - Librería de JS para el control de mapas dinamicos
 * [Firebase](https://firebase.google.com/?hl=es-419) - Servicio de base de datos real-time y de hosting
