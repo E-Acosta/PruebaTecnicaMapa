@@ -1,4 +1,5 @@
 let doc, eaux, snapaux, salidaHtml
+    //Para poder utilizar firebase en una aplicacion es necesario iniciar las librerias de firebase con los parametros personales que este entrega
 let firebaseConfig = {
     apiKey: " AIzaSyDX_1g0J3IoS5hL9FIGdFcW5QX-wDNVP4w",
     authDomain: "pruebaever-37590.firebaseapp.com",
@@ -12,9 +13,9 @@ let db = firebase.firestore();
 db.settings({ timestampsInSnapshots: true });
 setTimeout(() => {
     cargarDatos()
-    console.log(`hola settime`)
+    console.log(`dataload,settime`)
 }, 1500);
-
+//La siguiente funcion recibe los datos del objeto viaje y almacena los datos en firebase.store
 async function agregarDatos(geoPosInicial, geoPosFinal, geoPosActual, posInicial = 'indeterminado', posFinal = 'indeterminado', tiempo, distancia, end, stoped) {
     await db.collection("Viajes").add({
             tiempo: tiempo,
@@ -36,7 +37,7 @@ async function agregarDatos(geoPosInicial, geoPosFinal, geoPosActual, posInicial
             end: end,
             stoped: stoped
         }).then(function(docRef) {
-            console.log("Document written with ID: ", docRef.id);
+            console.log("Document written with ID: ", docRef.id); //el callback retorna el id genrado automaticamente por firebase al insertar un documento
             idViaje = docRef.id
         })
         .catch(function(error) {
@@ -84,11 +85,13 @@ db.collection("Viajes").onSnapshot(snapshot => {
 })
 
 function renderDatos(doc, i) {
-    console.log(doc.id)
-    console.log(doc.data())
+    /* console.log(doc.id)
+     console.log(doc.data())*/
     var carcolor = ``
-    if (doc.data().end) {
+    if (cambio.doc.data().end) {
         carcolor = `Imagenes/carblue.png`
+    } else if (cambio.doc.data().stoped) {
+        carcolor = `Imagenes/carred.png`
     } else {
         carcolor = `Imagenes/caryellow.png`
     }
