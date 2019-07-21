@@ -1,0 +1,220 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+}
+
+#mimapa {
+    height: 650px;
+    box-shadow: 5px 5px 5px #888;
+}
+
+#container-mapa {
+    text-align: center;
+    width: 80%;
+    height: 40%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.header {
+    box-sizing: border-box;
+    display: flex;
+    /* Se usa para cambiar el tamaño del h2 y centrar verticalmente */
+    width: 100%;
+    justify-content: space-between;
+    height: 60px;
+    background: #204969;
+    text-transform: uppercase;
+    padding-left: 20px;
+    align-items: center;
+    font-family: 'Work Sans', sans-serif;
+    color: #fff;
+}
+
+.Title {
+    font-weight: 400;
+}
+
+.header>a {
+    display: flex;
+    width: 250px;
+    height: 100%;
+    text-decoration: none;
+    color: #fff;
+    transition: all 0.5s ease;
+    box-sizing: border-box;
+    /* border-bottom: 1px solid #204969;
+    border-top: 1px solid #204969; */
+    align-items: center;
+    justify-content: space-around;
+}
+
+.header>a:hover {
+    color: #204969;
+    background: #fff;
+}
+
+.map-icon {
+    padding-right: 20px;
+}
+
+.btn-go {
+    margin: 10px;
+    width: 150px;
+    height: 40px;
+    display: block;
+    background: #204969;
+    border-radius: 3px;
+    color: #fff;
+    font-family: 'Work Sans', sans-serif;
+    border: 2px solid #204969;
+    cursor: pointer;
+    transition: all 0.5s ease;
+    /* Tiempo de transformación del hover */
+    font-weight: 500;
+}
+
+.btn-go:hover {
+    background: #fff;
+    color: #204969;
+    border: 2px solid #204969;
+}
+
+.btn-map-start {
+    margin: 10px;
+    width: 150px;
+    height: 40px;
+    display: block;
+    background: #007065;
+    border-radius: 3px;
+    color: #fff;
+    font-family: 'Work Sans', sans-serif;
+    border: 2px solid #007065;
+    cursor: pointer;
+    transition: all 0.5s ease;
+    /* Tiempo de transformación del hover */
+    font-weight: 500;
+    font-size: 13px;
+}
+
+.btn-map-start:hover {
+    background: #fff;
+    color: #007065;
+    border: 2px solid #007065;
+}
+
+.btn-map-end {
+    margin: 10px;
+    width: 150px;
+    height: 40px;
+    display: block;
+    background: #204969;
+    border-radius: 3px;
+    color: #fff;
+    font-family: 'Work Sans', sans-serif;
+    border: 2px solid #204969;
+    cursor: pointer;
+    transition: all 0.5s ease;
+    /* Tiempo de transformación del hover */
+    font-weight: 500;
+    font-size: 13px;
+}
+
+.btn-map-end:hover {
+    background: #fff;
+    color: #204969;
+    border: 2px solid #204969;
+}
+
+
+/* Panel Css */
+
+.container-panel {
+    width: 90vw;
+    height: auto;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: row;
+}
+
+.container-map {
+    background: #007065;
+    height: 500px;
+    flex: 1;
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.container-blocks {
+    /* background: #204969; */
+    height: 500px;
+    flex: 1;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+
+/* Bloques de Informacion */
+
+.block {
+    background: #fff;
+    border-radius: 5px;
+    border: 1px solid rgb(173, 173, 173);
+    display: flex;
+    width: 90%;
+    height: 200px;
+    padding: 10px;
+    box-sizing: border-box;
+    -webkit-box-shadow: 8px 4px 8px -3px rgba(130, 130, 130, 1);
+    -moz-box-shadow: 8px 4px 8px -3px rgba(130, 130, 130, 1);
+    box-shadow: 8px 4px 8px -3px rgba(130, 130, 130, 1);
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.block>img {
+    margin-right: 30px;
+    flex: 1;
+    border-radius: 5px;
+}
+
+.block>.text {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    flex: 1.5;
+    font-family: 'Work Sans', sans-serif;
+    overflow-x: auto;
+}
+
+.title-text {
+    color: black;
+}
+
+.text>button {
+    position: absolute;
+    right: 2%;
+    color: #204969;
+    cursor: pointer;
+    /* Tiempo de transformación del hover */
+    font-size: 18px;
+    border: none;
+}
+
+.text>button>i {
+    transition: all 0.1s ease;
+}
+
+.text>button>i:hover {
+    color: #af0404;
+}

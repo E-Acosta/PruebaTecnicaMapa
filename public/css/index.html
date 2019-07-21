@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>PruebaTecnica</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="" />
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <link href="https://fonts.googleapis.com/css?family=Work+Sans:400,700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/803270081a.js"></script>
+</head>
+
+<body>
+    <div class="header">
+            <h2 class="Title"><i class="fas fa-map-marked map-icon"></i>mapa</h2>
+            <a href="#">Ir al Panel Administrador   <i class="fas fa-arrow-right"></i></a>
+    </div>
+    <div id="container-mapa">
+        <button onclick="UtilizarRuta()" class="btn-go">Comenzar viaje</button>
+        <div id="mimapa"></div>
+        <div>
+            <script src="./javascript/ubicacion.js"></script>
+            <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js" integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==" crossorigin=""></script>
+            <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+            <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+            <script src="./javascript/AnimatedMarker.js"></script>
+</body>
+
+</html>
